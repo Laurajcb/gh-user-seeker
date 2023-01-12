@@ -19,7 +19,8 @@ On the terminal type:
 ```
 * Ready to use the aplication!
 
-
+![example1.png](https://github.com/Laurajcb/gh-user-seeker/blob/main/src/assets/example1.png)
+![example2.png](https://github.com/Laurajcb/gh-user-seeker/blob/main/src/assets/example2.png)
 ## Bugs
 No known bugs at this time.
 
