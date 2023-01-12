@@ -1,11 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Container from '@mui/material/Container';
 import { Searcher } from "./Components/Searcher";
+import { getGitHubUser } from './services/users';
+import { UserCard } from "./containers/userCard";
+
 
 const App = () => {
   const [inputUser, setInputUser] = useState('Octocat');
   const [userState, setUserState] = useState('inputUser');
-  console.log('input user', inputUser);
+  const [notfound, setNotFound] = useState(false)
+
+  const gettingUser = async (user) => {
+    const userResponse = await getGitHubUser(user)
+    if (userState === 'octocat') {
+      localStorage.setItem('octocat', userResponse)
+    }
+
+    if (userResponse.message === 'Not Found') {
+      const { octocat } = localStorage;
+      setInputUser(octocat);
+      setNotFound(true)
+    } else {
+      setUserState(userResponse);
+    }
+
+    console.log('respuest', userResponse)
+    console.log('estado', userState)
+  }
+
+  useEffect(() => {
+    gettingUser(inputUser)
+  }, [inputUser])
 
 
   return (
@@ -19,7 +44,8 @@ const App = () => {
       flexDirection: 'column',
       alignItems: 'center',
     }}>
-      <Searcher inputUser={inputUser} setInputUser={setInputUser}/>
+      <Searcher inputUser={inputUser} setInputUser={setInputUser} />
+      <UserCard userState={userState}/>
     </Container>
   )
 };
