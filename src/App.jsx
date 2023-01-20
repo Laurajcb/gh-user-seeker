@@ -3,6 +3,7 @@ import Container from '@mui/material/Container';
 import { Searcher } from "./Components/Searcher";
 import { getGitHubUser } from './services/users';
 import { UserCard } from "./containers/userCard";
+import { makeStyles } from '@material-ui/core';
 
 
 const App = () => {
@@ -23,9 +24,6 @@ const App = () => {
     } else {
       setUserState(userResponse);
     }
-
-    console.log('respuest', userResponse)
-    console.log('estado', userState)
   }
 
   useEffect(() => {
@@ -33,19 +31,35 @@ const App = () => {
   }, [inputUser])
 
 
-  return (
-    <Container sx={{
+  const useStyles = makeStyles((theme) => ({
+    container: {
+      boxSizing: 'border-box',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
       background: 'whitesmoke',
       width: '80vw',
       height: '500px',
       borderRadius: '16px',
       marginTop: '40px',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-    }}>
+      paddingTop: '20px',
+      [theme.breakpoints.down('sm')]: {
+        justifySelf: 'center',
+        width: '90vw',
+        height: '100%',
+        padding: '50px',
+        marginTop: '0px',
+      },
+    }
+  }));
+  const classes = useStyles();
+
+  return (
+    <Container
+      className={classes.container}
+    >
       <Searcher inputUser={inputUser} setInputUser={setInputUser} />
-      <UserCard userState={userState}/>
+      <UserCard userState={userState} />
     </Container>
   )
 };
