@@ -3,3 +3,5 @@ node_modules
 
 .DS_Store
 dist/
+MIGRATION.md
+VITE_BUILD_PROCESS.md
