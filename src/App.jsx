@@ -9,21 +9,33 @@ import { makeStyles } from '@material-ui/core';
 const App = () => {
   const [inputUser, setInputUser] = useState('Octocat');
   const [userState, setUserState] = useState('inputUser');
-  const [notfound, setNotFound] = useState(false)
+  const [notfound, setNotFound] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
 
   const gettingUser = async (user) => {
-    const userResponse = await getGitHubUser(user)
-    if (userState === 'octocat') {
-      localStorage.setItem('octocat', userResponse)
+    setLoading(true)
+
+    try {
+      const userResponse = await getGitHubUser(user)
+      if (userState === 'octocat') {
+        localStorage.setItem('octocat', userResponse)
+      }
+
+      if (userResponse.message === 'Not Found') {
+        const { octocat } = localStorage;
+        setInputUser(octocat);
+        setNotFound(true)
+      } else {
+        setUserState(userResponse);
+      }
+    } catch {
+      setError("Error al buscar el usuario, intenta de nuevo")
+    } finally {
+      setLoading(false)
     }
 
-    if (userResponse.message === 'Not Found') {
-      const { octocat } = localStorage;
-      setInputUser(octocat);
-      setNotFound(true)
-    } else {
-      setUserState(userResponse);
-    }
   }
 
   useEffect(() => {
@@ -59,6 +71,8 @@ const App = () => {
       className={classes.container}
     >
       <Searcher inputUser={inputUser} setInputUser={setInputUser} />
+      {loading && <p>Searching...</p>}
+      {error && <p>{error}</p>}
       <UserCard userState={userState} />
     </Container>
   )

@@ -17,6 +17,12 @@ const Searcher = (props) => {
     setInputUser(valueInput);
   }
 
+  const handleKeyDown = (event) => {
+    if (event.code === "Enter"){
+      handleSubmit()
+    }
+  }
+
   const useStyles = makeStyles((theme) => ({
     stack: {
       width: '80%',
@@ -51,6 +57,7 @@ const Searcher = (props) => {
         size='small'
         value={valueInput}
         onChange={onSearchValueChange}
+        onKeyDown={handleKeyDown}
         sx={{
           width: '90%',
         }}
