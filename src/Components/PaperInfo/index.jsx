@@ -1,105 +1,24 @@
 import React from "react";
-import { Paper, Stack, Typography } from "@mui/material";
-import { makeStyles } from '@material-ui/core';
 
+const PaperInfo = ({ userState }) => {
+  const { public_repos, followers, following } = userState;
 
-const PaperInfo = (props) => {
-  const { userState } = props
-  const {
-    public_repos,
-    followers,
-    following
-  } = userState;
-
-  const useStyles = makeStyles((theme) => ({
-    stackPaper: {
-      justifyContent: 'space-evenly',
-      spacing: '3',
-      margin: '20px',
-      [theme.breakpoints.down('sm')]: { 
-        flexDirection: 'row',
-      }
-    }
-  }))
-  const classes = useStyles();
+  const stats = [
+    { label: "Repositories", value: public_repos },
+    { label: "Followers", value: followers },
+    { label: "Following", value: following },
+  ];
 
   return (
-    <Paper elevation={3}>
-      <Stack
-        className={classes.stackPaper} flexDirection={{ sm: 'column', md: 'row' }}
-      >
-        <Stack flexDirection={{ xs: 'row ', md: 'column' }} >
-          <Typography variant="h5"
-            sx={{
-              fontSize: {
-                xs: "18px",
-                sm: "26px",
-              },
-              marginRight: '12px',
-            }}
-    
-          >
-            Repositories</Typography>
-          <Typography variant="h6"
-            sx={{
-              fontSize: {
-                xs: "16px",
-                sm: "24px",
-              },
-            }}
-          >
-            {public_repos}
-          </Typography>
-        </Stack>
-        <Stack  flexDirection={{ xs: 'row ', md: 'column' }}>
-          <Typography variant="h5"
-            sx={{
-              fontSize: {
-                xs: "18px",
-                sm: "26px",
-              },
-              marginRight: '12px',
-            }}
-          >
-            Followers
-          </Typography>
-          <Typography variant="h6"
-            sx={{
-              fontSize: {
-                xs: "16px",
-                sm: "24px",
-              },
-            }}
-          >
-            {followers}
-          </Typography>
-        </Stack>
-        <Stack flexDirection={{ xs: 'row ', md: 'column' }}>
-          <Typography variant="h5"
-            sx={{
-              fontSize: {
-                xs: "18px",
-                sm: "26px",
-              },
-              marginRight: '12px',
-            }}
-          >
-            Following
-          </Typography>
-          <Typography variant="h6"
-            sx={{
-              fontSize: {
-                xs: "16px",
-                sm: "24px",
-              },
-            }}
-          >
-            {following}
-          </Typography>
-        </Stack>
-      </Stack>
-    </Paper>
-  )
-}
+    <div className="bg-slate-900/60 rounded-xl px-4 py-3 flex justify-around">
+      {stats.map(({ label, value }) => (
+        <div key={label} className="flex flex-col items-center gap-1">
+          <span className="text-slate-400 text-xs uppercase tracking-wider">{label}</span>
+          <span className="text-white text-lg font-bold">{value ?? 0}</span>
+        </div>
+      ))}
+    </div>
+  );
+};
 
 export { PaperInfo };

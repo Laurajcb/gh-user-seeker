@@ -1,31 +1,40 @@
-###  GitHub Users Seeker
+# GitHub Users Seeker
 
-## Description 
-This proyect is a basic browser for GitHub's users, Onece you type a valid GitHub user the App is going to show the main information of it, 
-like user name, number of repositories, followers or even the location if the user have it available.
+## Description
+A React app for searching GitHub users. Type a valid GitHub username and the app displays their main profile information: name, number of repositories, followers, and location (when available).
 
-## Content 
- In the above files you are going to find all the files used to build the app, on the SRC folder are all the components worked with Material UI, 
- also the constants , containers and services that make everything posible 
+## Tech Stack
+- **React 17** — UI components
+- **Vite** — dev server and production build
+- **Material UI (MUI v5)** — component library
+- **Tailwind CSS v4** — utility styles
 
 ## Install and run
-On the terminal type:
-```
-    - 1. git clone git@github.com:Laurajcb/Lets-to-do-it.git
-    - 2. npm install
-    - 3. npm start
-    - 4. on --> http://localhost:3000/
 
+```bash
+git clone git@github.com:Laurajcb/gh-user-seeker.git
+cd gh-user-seeker
+npm install
+npm start
 ```
-* Ready to use the aplication!
+
+Open [http://localhost:3007](http://localhost:3007) in your browser.
+
+## Scripts
+
+| Command | Description |
+|---|---|
+| `npm start` | Start dev server on port 3007 |
+| `npm run build` | Production build to `dist/` |
+| `npm run preview` | Preview the production build locally |
+
+## Screenshots
 
 ![example1.png](https://github.com/Laurajcb/gh-user-seeker/blob/main/src/assets/example1.png)
 ![example2.png](https://github.com/Laurajcb/gh-user-seeker/blob/main/src/assets/example2.png)
-## Bugs
-No known bugs at this time.
 
 ## Author
-This project was buit by Laura Callejas <callejaslaura96@gmail.com> .
+Built by Laura Callejas — callejaslaura96@gmail.com
 
 ## License
-Public Domain. No copy write protection.
+Public Domain.

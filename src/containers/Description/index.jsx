@@ -1,24 +1,19 @@
 import React from "react";
-import { Stack, Typography } from "@mui/material";
 import { PaperInfo } from '../../Components/PaperInfo';
 import { LocationInfo } from "../../Components/LocationInfo";
 
-const Description = (props) => {
-  const { userState } = props;
-  const { bio } = userState
+const Description = ({ userState }) => {
+  const { bio } = userState;
+
   return (
-    <>
-      <Stack sx={{justifyContent:'center'}}>
-        {bio != null
-          ? <Typography variant='body1'>{bio}</Typography>
-          : <Typography variant='body1'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</Typography>
-        }
-      </Stack>
-      <PaperInfo  userState={userState}/>
-      <LocationInfo  userState={userState}/>
-    </>
-  )
+    <div className="flex flex-col gap-4">
+      <p className="text-slate-300 text-sm leading-relaxed">
+        {bio ?? "This profile has no bio."}
+      </p>
+      <PaperInfo userState={userState} />
+      <LocationInfo userState={userState} />
+    </div>
+  );
+};
 
-}
-
-export { Description }
+export { Description };

@@ -1,76 +1,42 @@
-import { Grid, Stack, Typography } from "@mui/material";
 import React from "react";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import LanguageIcon from '@mui/icons-material/Language';
 import BusinessIcon from '@mui/icons-material/Business';
-import { makeStyles } from '@material-ui/core';
 
+const LocationInfo = ({ userState }) => {
+  const { location, twitter_username, blog, company } = userState;
 
-function LocationInfo(props) {
-  const { userState } = props;
-  const {
-    location,
-    twitter_username,
-    blog,
-    company
-  } = userState;
-
-  const useStyles = makeStyles((theme) => ({ 
-    gridContainer: {
-      marginTop: '15px',
-    }
-  }))
-
-  const classes = useStyles();
+  const items = [
+    { icon: <LocationOnIcon fontSize="small" />, value: location },
+    { icon: <TwitterIcon fontSize="small" />, value: twitter_username },
+    {
+      icon: <LanguageIcon fontSize="small" />,
+      value: blog,
+      render: (v) => (
+        <a href={v} target="_blank" rel="noreferrer" className="text-blue-400 hover:underline truncate">
+          {v}
+        </a>
+      ),
+    },
+    { icon: <BusinessIcon fontSize="small" />, value: company },
+  ];
 
   return (
-    <Grid
-      className={classes.gridContainer}
-      flexDirection={{ sm: 'column', md: 'row' }}
-      container
-      spacing={2}
-    >
-      <Grid item xs={12} md={6}>
-        <Stack direction='row' spacing={2}>
-          <LocationOnIcon />
-          <Typography>{location}</Typography>
-        </Stack>
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <Stack direction='row' spacing={2}>
-          <TwitterIcon />
-          {twitter_username !== null
-            ? <Typography>{twitter_username}</Typography>
-            : <Typography>Not Available</Typography>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-1">
+      {items.map(({ icon, value, render }, i) => (
+        <div key={i} className="flex items-center gap-2 text-slate-300 text-sm min-w-0">
+          <span className="text-slate-500 shrink-0">{icon}</span>
+          {value
+            ? render
+              ? render(value)
+              : <span className="truncate">{value}</span>
+            : <span className="text-slate-500">Not Available</span>
           }
-        </Stack>
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <Stack direction='row' spacing={2}>
-          <LanguageIcon />
-          {blog !== null
-            ? <a
-              target='_blank'
-              href={blog}
-              rel="noreferrer"
-            >
-              <Typography>{blog}</Typography></a>
-            : <Typography>Not Available</Typography>
-          }
-        </Stack>
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <Stack direction='row' spacing={2}>
-          <BusinessIcon />
-          {company !== null
-            ? <Typography>{company}</Typography>
-            : <Typography>Not Available</Typography>
-          }
-        </Stack>
-      </Grid>
-    </Grid>
-  )
-}
+        </div>
+      ))}
+    </div>
+  );
+};
 
 export { LocationInfo };

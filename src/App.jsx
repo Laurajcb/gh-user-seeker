@@ -1,81 +1,64 @@
 import React, { useEffect, useState } from "react";
-import Container from '@mui/material/Container';
 import { Searcher } from "./Components/Searcher";
 import { getGitHubUser } from './services/users';
 import { UserCard } from "./containers/userCard";
-import { makeStyles } from '@material-ui/core';
-
 
 const App = () => {
   const [inputUser, setInputUser] = useState('Octocat');
-  const [userState, setUserState] = useState('inputUser');
+  const [userState, setUserState] = useState(null);
   const [notfound, setNotFound] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-
   const gettingUser = async (user) => {
-    setLoading(true)
+    setLoading(true);
+    setNotFound(false);
+    setError(null);
 
     try {
-      const userResponse = await getGitHubUser(user)
-      if (userState === 'octocat') {
-        localStorage.setItem('octocat', userResponse)
-      }
-
+      const userResponse = await getGitHubUser(user);
       if (userResponse.message === 'Not Found') {
-        const { octocat } = localStorage;
-        setInputUser(octocat);
-        setNotFound(true)
+        setNotFound(true);
       } else {
         setUserState(userResponse);
       }
     } catch {
-      setError("Error al buscar el usuario, intenta de nuevo")
+      setError("Error searching for user, please try again.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-
-  }
+  };
 
   useEffect(() => {
-    gettingUser(inputUser)
-  }, [inputUser])
-
-
-  const useStyles = makeStyles((theme) => ({
-    container: {
-      boxSizing: 'border-box',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      background: 'whitesmoke',
-      width: '80vw',
-      height: '500px',
-      borderRadius: '16px',
-      marginTop: '40px',
-      paddingTop: '20px',
-      [theme.breakpoints.down('sm')]: {
-        justifySelf: 'center',
-        width: '90vw',
-        height: '100%',
-        padding: '50px',
-        marginTop: '0px',
-      },
-    }
-  }));
-  const classes = useStyles();
+    gettingUser(inputUser);
+  }, [inputUser]);
 
   return (
-    <Container
-      className={classes.container}
-    >
-      <Searcher inputUser={inputUser} setInputUser={setInputUser} />
-      {loading && <p>Searching...</p>}
-      {error && <p>{error}</p>}
-      <UserCard userState={userState} />
-    </Container>
-  )
+    <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
+      <div className="w-full max-w-2xl bg-slate-800 rounded-2xl shadow-2xl p-6 md:p-8">
+        <h1 className="text-white text-2xl font-bold mb-6 tracking-tight">
+          GitHub User Seeker
+        </h1>
+        <Searcher setInputUser={setInputUser} />
+        {loading && (
+          <p className="text-slate-400 text-sm mt-6 text-center animate-pulse">
+            Searching...
+          </p>
+        )}
+        {error && (
+          <p className="text-red-400 text-sm mt-6 text-center">{error}</p>
+        )}
+        {notfound && (
+          <p className="text-slate-400 text-sm mt-6 text-center">
+            No user found for <span className="text-white font-medium">"{inputUser}"</span>. Try another username.
+          </p>
+        )}
+        {!loading && !error && !notfound && userState && (
+          <UserCard userState={userState} />
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default App;

@@ -1,78 +1,35 @@
 import React, { useState } from 'react';
-import { IconButton, Stack, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import { makeStyles } from '@material-ui/core';
 
-const Searcher = (props) => {
-  // eslint-disable-next-line react/prop-types
-  const { setInputUser } = props;
+const Searcher = ({ setInputUser }) => {
   const [valueInput, setValueInput] = useState('');
 
-  const onSearchValueChange = (event) => {
-    const inputValue = event.target.value;
-    setValueInput(inputValue);
-  }
-
   const handleSubmit = () => {
-    setInputUser(valueInput);
-  }
+    if (valueInput.trim()) setInputUser(valueInput.trim());
+  };
 
   const handleKeyDown = (event) => {
-    if (event.code === "Enter"){
-      handleSubmit()
-    }
-  }
-
-  const useStyles = makeStyles((theme) => ({
-    stack: {
-      width: '80%',
-      [theme.breakpoints.down('sm')]: {
-        minWidth: '340px',
-        marginLeft: '-5px',
-        width: '90%',
-      },
-    },
-    textField: {
-      [theme.breakpoints.down('md')]: {
-        marginTop: '20px',
-        width: '100%',
-        marginLeft: '-17px',
-      },
-    }
-  }));
-
-  const classes = useStyles();
+    if (event.code === 'Enter') handleSubmit();
+  };
 
   return (
-    <Stack
-      className={classes.stack}
-      direction='row'
-    >
-      <TextField
-        className={classes.textField}
-        id='outlined-basic'
-        label='GitHub User'
-        variant='outlined'
-        placeholder='OctoCat'
-        size='small'
+    <div className="flex items-center gap-2 w-full">
+      <input
+        type="text"
+        placeholder="Search GitHub user..."
         value={valueInput}
-        onChange={onSearchValueChange}
+        onChange={(e) => setValueInput(e.target.value)}
         onKeyDown={handleKeyDown}
-        sx={{
-          width: '90%',
-        }}
+        className="flex-1 bg-slate-700 text-white placeholder-slate-400 border border-slate-600 rounded-full px-4 py-2 text-sm outline-none focus:border-blue-400 transition-colors"
       />
-      <IconButton
+      <button
         onClick={handleSubmit}
-        size='small'
-        sx={{
-          left: '-45px',
-        }}
+        className="bg-blue-500 hover:bg-blue-600 text-white rounded-full p-2 transition-colors shrink-0 cursor-pointer"
       >
-        <SearchIcon />
-      </IconButton>
-    </Stack >
-  )
-}
+        <SearchIcon fontSize="small" />
+      </button>
+    </div>
+  );
+};
 
 export { Searcher };
