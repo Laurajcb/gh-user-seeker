@@ -1,5 +1,7 @@
 # GitHub Users Seeker
 
+**Live demo:** [gh-user-seeker-pi.vercel.app](https://gh-user-seeker-pi.vercel.app)
+
 ## Description
 A React app for searching GitHub users. Type a valid GitHub username and the app displays their main profile information: name, number of repositories, followers, and location (when available).
 
